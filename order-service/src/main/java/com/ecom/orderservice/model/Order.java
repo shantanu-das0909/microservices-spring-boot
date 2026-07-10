@@ -9,7 +9,7 @@ import org.hibernate.annotations.UuidGenerator;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "t_order")
 @Getter
 @Setter
 @Builder
@@ -21,7 +21,6 @@ public class Order {
     @GeneratedValue
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
-    private String orderNumber;
     private String skuCode;
     private BigDecimal price;
     private Integer quantity;

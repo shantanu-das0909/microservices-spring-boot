@@ -1,4 +1,11 @@
 package com.ecom.productservice.dto;
 
-public class AddProductRequest {
+
+import java.math.BigDecimal;
+
+public record AddProductRequest (
+        String name,
+        String description,
+        BigDecimal price
+) {
 }

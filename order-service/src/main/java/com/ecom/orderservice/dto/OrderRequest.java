@@ -1,4 +1,10 @@
 package com.ecom.orderservice.dto;
 
-public record OrderRequest() {
+import java.math.BigDecimal;
+
+public record OrderRequest(
+        String skuCode,
+        BigDecimal price,
+        Integer quantity
+) {
 }

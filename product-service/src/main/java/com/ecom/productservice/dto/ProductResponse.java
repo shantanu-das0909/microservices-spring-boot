@@ -2,7 +2,7 @@ package com.ecom.productservice.dto;
 
 import java.math.BigDecimal;
 
-public record AddProductResponse(
+public record ProductResponse(
         String id,
         String name,
         String description,
