@@ -1,0 +1,7 @@
+package com.ecom.inventoryservice.controllers;
+
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class InventoryControllerIT {
+}

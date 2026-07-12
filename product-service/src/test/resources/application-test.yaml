@@ -1,0 +1,5 @@
+spring:
+  # This tells Spring Boot to ignore the production credentials
+  # and let Testcontainers inject the dynamic connection details.
+  mongodb:
+    database: testdb

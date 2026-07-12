@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: testUrl
+    username: testUser
+    password: testPassword

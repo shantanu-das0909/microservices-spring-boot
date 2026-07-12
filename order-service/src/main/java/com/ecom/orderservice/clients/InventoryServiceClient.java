@@ -1,23 +1,12 @@
 package com.ecom.orderservice.clients;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
 
-@Component
-public class InventoryServiceClient {
+@HttpExchange("/api/inventory")
+public interface InventoryServiceClient {
 
-    private final RestClient restClient;
-
-    public InventoryServiceClient(@Qualifier("inventoryRestClient") RestClient restClient) {
-        this.restClient = restClient;
-    }
-
-    public String checkInventory(String productId) {
-        return restClient.get()
-                .uri("/inventory/{productId}", productId)
-                .retrieve()
-                .body(String.class);
-    }
-
+    @GetExchange
+    public boolean checkInventory(@RequestParam String skuCode, @RequestParam Integer quantity);
 }

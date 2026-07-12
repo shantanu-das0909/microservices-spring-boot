@@ -20,8 +20,8 @@ spring:
     enabled: true
 
 services:
-    inventory-service:
-      base-url: "http://localhost:8081"
+    inventory:
+      base-url: "http://localhost:8083"
       connection-timeout: 5s
       read-timeout: 5s
 

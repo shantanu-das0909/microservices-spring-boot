@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
 
-@ConfigurationProperties(prefix = "services.inventory-service")
+@ConfigurationProperties(prefix = "services.inventory")
 public record InventoryServiceConstants(
         String baseUrl,
         Duration connectionTimeout,

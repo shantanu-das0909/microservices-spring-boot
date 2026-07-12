@@ -21,17 +21,4 @@ public class InventoryService {
     public boolean isInStock(String skuCode, Integer quantity) {
         return inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode, quantity);
     }
-
-    public String addProduct(AddInventoryRequest addInventoryRequest) {
-        Inventory inventory = inventoryMapper.toEntity(addInventoryRequest);
-
-        Inventory savedProduct = inventoryRepository.save(inventory);
-        return "Product saved to inventory with id: " + savedProduct.getId();
-    }
-
-    public String updateProduct(AddInventoryRequest addInventoryRequest) {
-        Inventory inventory = inventoryMapper.toEntity(addInventoryRequest);
-        Inventory updatedProduct = inventoryRepository.save(inventory);
-        return "Product updated to inventory with id: " + updatedProduct.getId();
-    }
 }

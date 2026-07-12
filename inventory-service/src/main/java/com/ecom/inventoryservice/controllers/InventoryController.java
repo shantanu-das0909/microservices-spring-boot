@@ -17,13 +17,13 @@ public class InventoryController {
         return inventoryService.isInStock(skuCode, quantity);
     }
 
-    @PostMapping
-    public String addProductToInventory(@RequestBody AddInventoryRequest addInventoryRequest) {
-        return inventoryService.addProduct(addInventoryRequest);
-    }
-
-    @PutMapping
-    public String updateProductToInventory(@RequestBody AddInventoryRequest addInventoryRequest) {
-        return inventoryService.updateProduct(addInventoryRequest);
-    }
+//    @PostMapping
+//    public String addProductToInventory(@RequestBody AddInventoryRequest addInventoryRequest) {
+//        return inventoryService.addProduct(addInventoryRequest);
+//    }
+//
+//    @PutMapping
+//    public String updateInventory(@RequestBody AddInventoryRequest addInventoryRequest) {
+//        return inventoryService.updateProduct(addInventoryRequest);
+//    }
 }
