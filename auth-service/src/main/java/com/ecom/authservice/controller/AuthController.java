@@ -2,11 +2,11 @@ package com.ecom.authservice.controller;
 
 import com.ecom.authservice.dto.AuthRequest;
 import com.ecom.authservice.dto.AuthResponse;
+import com.ecom.authservice.service.AuthService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -14,18 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<@NonNull AuthResponse> login(@RequestBody AuthRequest authRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password())
-        );
+        String token = authService.login(authRequest);
 
-        // TODO: generate the token
-
-        AuthResponse token = AuthResponse.builder().token("jwt token").build();
-        return ResponseEntity.ok(token);
+        AuthResponse authResponse = AuthResponse.builder().token(token).username(authRequest.username()).build();
+        return ResponseEntity.status(HttpStatus.OK).body(authResponse);
     }
 
     @GetMapping("/health")
