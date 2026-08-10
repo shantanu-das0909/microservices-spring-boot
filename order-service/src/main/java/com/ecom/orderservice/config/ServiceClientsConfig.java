@@ -3,8 +3,12 @@ package com.ecom.orderservice.config;
 import com.ecom.orderservice.clients.InventoryServiceClient;
 import com.ecom.orderservice.constants.InventoryServiceConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.restclient.autoconfigure.RestClientBuilderConfigurer;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
@@ -18,7 +22,21 @@ public class ServiceClientsConfig {
     private final InventoryServiceConstants inventoryServiceConstants;
 
     @Bean
-    public InventoryServiceClient inventoryRestClient(RestClient.Builder builder){
+    @Primary
+    public RestClient.Builder restClientBuilder(
+            RestClientBuilderConfigurer configurer) {
+        return configurer.configure(RestClient.builder());
+    }
+
+    @Bean
+    @LoadBalanced
+    public RestClient.Builder loadBalancedRestClientBuilder(
+            RestClientBuilderConfigurer configurer) {
+        return configurer.configure(RestClient.builder());
+    }
+
+    @Bean
+    public InventoryServiceClient inventoryRestClient(@Qualifier("loadBalancedRestClientBuilder") RestClient.Builder builder){
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(inventoryServiceConstants.connectionTimeout());
         factory.setReadTimeout(inventoryServiceConstants.readTimeout());
