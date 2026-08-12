@@ -15,7 +15,12 @@ public class InventoryService {
     private final InventoryRepository inventoryRepository;
     private final InventoryMapper inventoryMapper;
 
-    public boolean isInStock(String skuCode, Integer quantity) {
+    public boolean isInStock(String skuCode, Integer quantity) throws Exception {
+        log.debug("Checking is the product with SKU_ID: {} is in stock", skuCode);
+//        if(skuCode != null) {
+//            throw new Exception("Retry check");
+//        }
+//        return false;
         return inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode, quantity);
     }
 }

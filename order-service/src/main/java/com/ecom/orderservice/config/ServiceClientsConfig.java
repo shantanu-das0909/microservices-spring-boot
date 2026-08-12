@@ -36,7 +36,9 @@ public class ServiceClientsConfig {
     }
 
     @Bean
-    public InventoryServiceClient inventoryRestClient(@Qualifier("loadBalancedRestClientBuilder") RestClient.Builder builder){
+    public InventoryServiceClient inventoryRestClient(
+            @Qualifier("loadBalancedRestClientBuilder") RestClient.Builder builder
+    ){
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(inventoryServiceConstants.connectionTimeout());
         factory.setReadTimeout(inventoryServiceConstants.readTimeout());

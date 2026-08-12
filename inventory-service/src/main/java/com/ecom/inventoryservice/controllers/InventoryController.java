@@ -12,7 +12,7 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @GetMapping
-    public boolean checkInventory(@RequestParam String skuCode, @RequestParam Integer quantity) {
+    public boolean checkInventory(@RequestParam String skuCode, @RequestParam Integer quantity) throws Exception {
         return inventoryService.isInStock(skuCode, quantity);
     }
 }

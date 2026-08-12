@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final InventoryServiceClient inventoryServiceClient;
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
+    private final InventoryService inventoryService;
 
     public String placeOrder(OrderRequest orderRequest) {
 
         try {
-            boolean isInStock = inventoryServiceClient.checkInventory(orderRequest.skuCode(), orderRequest.quantity());
+            boolean isInStock = inventoryService.checkInventory(orderRequest.skuCode(), orderRequest.quantity());
             if(!isInStock) {
                 return "Order can't be placed, as the product with skuCode: "
                         + orderRequest.skuCode() + " is Out of Stock!";
