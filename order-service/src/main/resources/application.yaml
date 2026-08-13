@@ -14,7 +14,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgresPlusDialect
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -27,13 +27,31 @@ resilience4j:
   retry:
     instances:
       inventoryRetry:
-        maxAttempts: 3
-        waitDuration: 1s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-        retryExceptions:
+        max-attempts: 3
+        wait-duration: 1s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
           - org.springframework.web.client.RestClientException
           - java.io.IOException
+        ignore-exceptions:
+          # Fixed: Inner classes use '$' instead of '.' in YAML exception lists
+          - org.springframework.web.client.HttpClientErrorException$TooManyRequests
+          - io.github.resilience4j.ratelimiter.RequestNotPermitted
+  ratelimiter:
+    configs:
+      default:
+        limit-refresh-period: 10s
+        timeout-duration: 0s
+        # Moved here because both instances share the same limit
+        limit-for-period: 5
+        register-health-indicator: true
+        subscribe-for-events: true
+    instances:
+      inboundLimiter:
+        base-config: default
+      outboundLimiter:
+        base-config: default
 
 
 # eureka config
@@ -43,6 +61,16 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+# 4. Open up endpoints to check if limits are active
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, ratelimiters
+  endpoint:
+    health:
+      show-details: always
 
 # microservices config
 services:

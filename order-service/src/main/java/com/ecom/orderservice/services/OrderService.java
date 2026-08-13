@@ -20,14 +20,20 @@ public class OrderService {
 
     public String placeOrder(OrderRequest orderRequest) {
 
-        try {
-            boolean isInStock = inventoryService.checkInventory(orderRequest.skuCode(), orderRequest.quantity());
-            if(!isInStock) {
-                return "Order can't be placed, as the product with skuCode: "
-                        + orderRequest.skuCode() + " is Out of Stock!";
-            }
-        } catch(Exception e){
-            log.error(e.getMessage());
+//        try {
+//            boolean isInStock = inventoryService.checkInventory(orderRequest.skuCode(), orderRequest.quantity());
+//            if(!isInStock) {
+//                return "Order can't be placed, as the product with skuCode: "
+//                        + orderRequest.skuCode() + " is Out of Stock!";
+//            }
+//        } catch(Exception e){
+//            log.error(e.getMessage());
+//        }
+
+        boolean isInStock = inventoryService.checkInventory(orderRequest.skuCode(), orderRequest.quantity());
+        if(!isInStock) {
+            return "Order can't be placed, as the product with skuCode: "
+                    + orderRequest.skuCode() + " is Out of Stock!";
         }
 
         Order order = orderMapper.toEntity(orderRequest);

@@ -12,12 +12,31 @@ spring:
     database-platform: org.hibernate.dialect.PostgresPlusDialect
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
   flyway:
     enabled: true
+
+# resilience4j config
+resilience4j:
+  ratelimiter:
+    configs:
+      default:
+        limit-refresh-period: 10s  # current rate limiter window
+        timeout-duration: 0s
+
+        # automatically register ratelimiter to spring actuator
+        register-health-indicator: true
+        subscribe-for-events: true
+    instances:
+      inboundLimiter:
+        base-config: default
+        limit-for-period: 3   # 3 requests per limit-refresh-period/window
+      outboundLimiter:
+        base-config: default
+        limit-for-period: 3
 
 eureka:
   client:
@@ -25,3 +44,14 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+
+# 4. Open up endpoints to check if limits are active
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, ratelimiters
+  endpoint:
+    health:
+      show-details: always
